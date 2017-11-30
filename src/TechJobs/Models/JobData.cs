@@ -87,6 +87,8 @@ namespace TechJobs.Models
 
             List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
 
+            if (value.Length == 0) return jobs;
+
             foreach (Dictionary<string, string> row in AllJobs)
             {
                 string aValue = row[column];
@@ -136,12 +138,20 @@ namespace TechJobs.Models
 
                 for (int i = 0; i < headers.Length; i++)
                 {
-                    rowDict.Add(headers[i], row[i]);
+                    rowDict.Add(ToTitle(headers[i]), row[i]);
                 }
                 AllJobs.Add(rowDict);
             }
 
             IsDataLoaded = true;
+        }
+
+        /*
+         * Returns parameter with first letter capitalized
+         */
+        private static string ToTitle(string s)
+        {
+            return new System.Globalization.CultureInfo("en-US", false).TextInfo.ToTitleCase(s.ToLower());
         }
 
         /*
