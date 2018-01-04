@@ -30,7 +30,7 @@ namespace TechJobs.Models
 
             foreach (Dictionary<string, string> job in AllJobs)
             {
-                string aValue = job[column];
+                string aValue = job[ToTitle(column)];
 
                 if (!values.Contains(aValue))
                 {
@@ -38,7 +38,6 @@ namespace TechJobs.Models
                 }
             }
 
-            // Bonus mission: sort results alphabetically
             values.Sort();
             return values;
         }
@@ -53,19 +52,22 @@ namespace TechJobs.Models
 
             List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
 
-            foreach (Dictionary<string, string> row in AllJobs)
+            if (value != null)
             {
-
-                foreach (string key in row.Keys)
+                foreach (Dictionary<string, string> row in AllJobs)
                 {
-                    string aValue = row[key];
 
-                    if (aValue.ToLower().Contains(value.ToLower()))
+                    foreach (string key in row.Keys)
                     {
-                        jobs.Add(row);
+                        string aValue = row[key];
 
-                        // Finding one field in a job that matches is sufficient
-                        break;
+                        if (aValue.ToLower().Contains(value.ToLower()))
+                        {
+                            jobs.Add(row);
+
+                            // Finding one field in a job that matches is sufficient
+                            break;
+                        }
                     }
                 }
             }
@@ -87,15 +89,16 @@ namespace TechJobs.Models
 
             List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
 
-            if (value.Length == 0) return jobs;
-
-            foreach (Dictionary<string, string> row in AllJobs)
+            if (value != null)
             {
-                string aValue = row[column];
-
-                if (aValue.ToLower().Contains(value.ToLower()))
+                foreach (Dictionary<string, string> row in AllJobs)
                 {
-                    jobs.Add(row);
+                    string aValue = row[ToTitle(column)];
+
+                    if (aValue.ToLower().Contains(value.ToLower()))
+                    {
+                        jobs.Add(row);
+                    }
                 }
             }
 
